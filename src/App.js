@@ -1,21 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import {ToDoContainer} from './to-do-list/ToDoContainer'
+import { ToDoContainer } from './containers'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <p>
-          To Do App
-        </p> */}
-        <ToDoContainer />        
+        <ToDoContainer />
       </header>
     </div>
   );
 }
+
+
 
 export default App;

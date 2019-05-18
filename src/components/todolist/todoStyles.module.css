@@ -5,3 +5,9 @@
     list-style-type: none;
     padding-left: 0px;
 }
+
+.todolistbtn{
+    color: white;
+    background-color: green;
+    cursor: pointer;
+}
