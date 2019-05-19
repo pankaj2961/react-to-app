@@ -4,14 +4,30 @@ import { ToDoInputPanel } from '../components'
 import { ToDoListPanel } from '../components'
 
 import { addTodoListAction, completedListAction } from "../actions"
+import { ListContext } from '../contexts'
 
 class ToDoContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            lists: {
+                listTodo: this.props.listToDo,
+                listCompleted: this.props.listCompleted
+            }
+        }
+    }
+    componentWillReceiveProps = (newProps) => {
+        this.setState({ lists: { listTodo: newProps.listToDo, listCompleted: newProps.listCompleted } });
+    }
+
     render() {
         return (
             <div>
                 <ToDoInputPanel addlistfn={this.props.addtolistFn} />
-                <ToDoListPanel listTodo={this.props.listToDo} listCompletedFn={this.props.listCompletedFn}
-                    listComplete={this.props.listCompleted} />
+
+                <ListContext.Provider value={this.state.lists}>
+                    <ToDoListPanel listCompletedFn={this.props.listCompletedFn} />
+                </ListContext.Provider>
             </div>
         )
     }

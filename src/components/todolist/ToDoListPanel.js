@@ -1,29 +1,42 @@
 import React from 'react'
 import todomodulestyle from './todoStyles.module.css'
 
-export const ToDoListPanel = (props) => {
-    const listsTodo = props && props.listTodo && props.listTodo.map((list) => {
-        return <li className={todomodulestyle.listyle} key={list.id} > {list.listName}
-            <button className={todomodulestyle.todolistbtn} onClick={() => props.listCompletedFn(list)}>complete</button> </li>
-    })
+import { ListContext } from '../../contexts'
 
-    const listsCompleted = props && props.listComplete && props.listComplete.map((list) => { return <li className={todomodulestyle.listyle} key={list.id} > {list.listName} </li> })
+
+export const ToDoListPanel = (prop) => {
     return (
 
         <div>
-            <div>
-                <h3>Lists to do</h3>
-                <ul className={todomodulestyle.uistyl}>
-                    {listsTodo}
-                </ul>
-            </div>
+            <ListContext.Consumer>
 
-            <div>
-                <h3>Lists Completed</h3>
-                <ul className={todomodulestyle.uistyl}>
-                    {listsCompleted}
-                </ul>
-            </div>
+                {props => (
+                    <div>
+                        <div>
+                            <h3>Lists to do</h3>
+                            <ul className={todomodulestyle.uistyl}>
+                                {/* {listsTodo} */}
+                                {props && props.listTodo && props.listTodo.map((list) => {
+                                    return <li className={todomodulestyle.listyle} key={list.id} > {list.listName}
+                                        <button className={todomodulestyle.todolistbtn} onClick={() => prop.listCompletedFn(list)}>complete</button> </li>
+                                })
+                                }
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3>Lists Completed</h3>
+                            <ul className={todomodulestyle.uistyl}>
+                                {/* {listsCompleted} */}
+
+                                {
+                                    props && props.listCompleted && props.listCompleted.map((list) => { return <li className={todomodulestyle.listyle} key={list.id} > {list.listName} </li> })
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                )}
+            </ListContext.Consumer>
         </div>
     )
 }
