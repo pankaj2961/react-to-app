@@ -1,43 +1,77 @@
-import React from 'react'
+import React, { Component } from 'react'
 import todomodulestyle from './todoStyles.module.css'
 
 import { ListContext } from '../../contexts'
 
 
-export const ToDoListPanel = (prop) => {
-    return (
+export class ToDoListPanel extends Component {
 
-        <div>
-            <ListContext.Consumer>
+    static contextType = ListContext;
 
-                {props => (
-                    <div>
+    onDragStartFn(event, list) {
+        event.dataTransfer.setData('list', list.listName);
+    }
+
+    onDropFn(event, listType) {
+        let listName = event.dataTransfer.getData('list');
+        let list = this.context.listTodo.find((lst)=>lst.listName == listName)
+        this.props.listCompletedFn(list);
+    }
+
+    onDragOverFn(event) {
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <div>
+                {/* <ListContext.Consumer>
+
+                    {this.context => ( */}
                         <div>
-                            <h3>Lists to do</h3>
-                            <ul className={todomodulestyle.uistyl}>
-                                {/* {listsTodo} */}
-                                {props && props.listTodo && props.listTodo.map((list) => {
-                                    return <li className={todomodulestyle.listyle} key={list.id} > {list.listName}
-                                        <button className={todomodulestyle.todolistbtn} onClick={() => prop.listCompletedFn(list)}>complete</button> </li>
-                                })
-                                }
-                            </ul>
-                        </div>
+                            <div className = {todomodulestyle.dragablecontainer}>
+                                <h3>Lists to do</h3>
+                                <ul className={todomodulestyle.uistyl}>
+                                    {/* {listsTodo} */}
+                                    {this.context && this.context.listTodo && this.context.listTodo.map((list) => {
+                                        return <li draggable
+                                            onDragStart={(e) => this.onDragStartFn(e, list)}
+                                            className={todomodulestyle.listyle}
+                                            key={list.id}> {list.listName}
+                                            <button className={todomodulestyle.todolistbtn}
+                                                onClick={() => this.props.listCompletedFn(list)}>complete
+                                            </button>
+                                        </li>
+                                    })
+                                    }
+                                </ul>
+                            </div>
 
-                        <div>
-                            <h3>Lists Completed</h3>
-                            <ul className={todomodulestyle.uistyl}>
-                                {/* {listsCompleted} */}
+                            <div className = {todomodulestyle.dragablecontainer}
+                                onDragOver={(e) => this.onDragOverFn(e)}
+                                onDrop={(e) => this.onDropFn(e, "complete")}>
+                                <h3>Lists Completed</h3>
+                                <ul className={todomodulestyle.uistyl}
+                                >
+                                    {/* {listsCompleted} */}
 
-                                {
-                                    props && props.listCompleted && props.listCompleted.map((list) => { return <li className={todomodulestyle.listyle} key={list.id} > {list.listName} </li> })
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                )}
-            </ListContext.Consumer>
-        </div>
-    )
+                                    {
+                                        this.context && this.context.listCompleted && this.context.listCompleted.map((list) => {
+                                            return (
+                                                <li className={todomodulestyle.listyle} key={list.id}
+
+                                                > {list.listName}
+
+                                                </li>)
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                         </div> 
+                     {/* )}
+                </ListContext.Consumer> */}
+            </div>
+        )
+    }
 }
 

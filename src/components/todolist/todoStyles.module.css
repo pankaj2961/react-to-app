@@ -1,5 +1,6 @@
 .listyle{
-    border: 1px solid;
+    border-top: 1px solid;
+    border-bottom : 1px solid;
 }
 .uistyl{
     list-style-type: none;
@@ -10,4 +11,8 @@
     color: white;
     background-color: green;
     cursor: pointer;
+}
+
+.dragablecontainer{
+    border: 1px solid;
 }
